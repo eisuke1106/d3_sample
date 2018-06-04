@@ -1,0 +1,60 @@
+ {
+    "name": "NodeA",
+    "type": "Router",
+    "children": [
+        {
+            "name": "NodeB",
+            "type": "Sensor"
+        },
+        {
+            "name": "NodeC",
+            "type": "Router",
+            "children": [
+                {
+                    "name": "NodeD",
+                    "type": "Sensor"
+                },
+                {
+                    "name": "NodeE",
+                    "type": "Sensor"
+                },
+                {
+                    "name": "NodeF",
+                    "type": "Sensor"
+                }
+            ]
+        },
+        {
+            "name": "NodeG",
+            "type": "Sensor"
+        },
+        {
+            "name": "NodeH",
+            "type": "Router",
+            "children": [
+                {
+                    "name": "NodeI",
+                    "type": "Sensor",
+                    "children": [
+                        {
+                            "name": "NodeI",
+                            "type": "Sensor"
+                        },
+                        {
+                            "name": "NodeJ",
+                            "type": "Sensor"
+                        }
+                    ]
+                },
+                {
+                    "name": "NodeJ",
+                    "type": "Sensor"
+                }
+            ]
+        },
+        {
+            "name": "NodeK",
+            "type": "Sensor"
+        }
+    ]
+}
