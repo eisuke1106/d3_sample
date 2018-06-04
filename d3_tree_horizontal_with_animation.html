@@ -32,65 +32,65 @@
             var ANIMATION_DELAY = 200;
             
             var data =  {
-    "name": "NodeA",
-    "type": "Router",
-    "children": [
-        {
-            "name": "NodeB",
-            "type": "Sensor"
-        },
-        {
-            "name": "NodeC",
-            "type": "Router",
-            "children": [
-                {
-                    "name": "NodeD",
-                    "type": "Sensor"
-                },
-                {
-                    "name": "NodeE",
-                    "type": "Sensor"
-                },
-                {
-                    "name": "NodeF",
-                    "type": "Sensor"
-                }
-            ]
-        },
-        {
-            "name": "NodeG",
-            "type": "Sensor"
-        },
-        {
-            "name": "NodeH",
-            "type": "Router",
-            "children": [
-                {
-                    "name": "NodeI",
-                    "type": "Sensor",
-                    "children": [
-                        {
-                            "name": "NodeI",
-                            "type": "Sensor"
-                        },
-                        {
-                            "name": "NodeJ",
-                            "type": "Sensor"
-                        }
-                    ]
-                },
-                {
-                    "name": "NodeJ",
-                    "type": "Sensor"
-                }
-            ]
-        },
-        {
-            "name": "NodeK",
-            "type": "Sensor"
-        }
-    ]
-};
+                            "name": "NodeA",
+                            "type": "Router",
+                            "children": [
+                                {
+                                    "name": "NodeB",
+                                    "type": "Sensor"
+                                },
+                                {
+                                    "name": "NodeC",
+                                    "type": "Router",
+                                    "children": [
+                                        {
+                                            "name": "NodeD",
+                                            "type": "Sensor"
+                                        },
+                                        {
+                                            "name": "NodeE",
+                                            "type": "Sensor"
+                                        },
+                                        {
+                                            "name": "NodeF",
+                                            "type": "Sensor"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "NodeG",
+                                    "type": "Sensor"
+                                },
+                                {
+                                    "name": "NodeH",
+                                    "type": "Router",
+                                    "children": [
+                                        {
+                                            "name": "NodeI",
+                                            "type": "Router",
+                                            "children": [
+                                                {
+                                                    "name": "NodeI",
+                                                    "type": "Sensor"
+                                                },
+                                                {
+                                                    "name": "NodeJ",
+                                                    "type": "Sensor"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "NodeJ",
+                                            "type": "Sensor"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "NodeK",
+                                    "type": "Sensor"
+                                }
+                            ]
+                        };
 
             // 3. 描画用のデータ変換
             var root = d3.hierarchy(data);
@@ -156,12 +156,15 @@
                     .attr("opacity", 1);
 
             node.append("text")
-                .attr("y", 0)
-                .attr("x", 0 )
+                .attr("dy", 3)
+                .attr("dx", 3)
                 .attr("fill", "block")
                 .attr("align","center")
-                // .style("text-anchor", function(d) { return d.children ? "end" : "start"; })
+                .style("text-anchor", function(d) { 
+                    return "start"; 
+                    })
                 .attr("font-size", "80%")
+                .attr("dominant-baseline", "text-before-edge")
                 .text("")
                 .transition()
                     .delay(function(d,i) {
@@ -169,7 +172,8 @@
                     })
                     .duration(1000)
                     .text(function(d) { 
-                        return d.data.name + "(" + d.data.type + ")"; 
+                        // return d.data.name + "(" + d.data.type + ")"; 
+                        return d.data.name;
                     });
             })();
     </script>
