@@ -136,9 +136,12 @@
                     
 
             node.append("rect")
+                .attr('rx', 5)
+                .attr('ry', 5)
                 .attr("width", NODE_WIDTH)
                 .attr("height", NODE_HEIGHT)
                 .attr("opacity", 0)
+                .attr("stroke", "gray")
                 .attr("fill", function(d, i) {
                     if (d.data.type == "Router") return "pink";
                     else return "skyblue";
