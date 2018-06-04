@@ -1,0 +1,174 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>D3.js Practice</title>
+    <style>
+        .link {
+          fill: none;
+          stroke: #555;
+          stroke-opacity: 0.4;
+          stroke-width: 1.5px;
+        }
+    </style>
+</head>
+<body>
+
+    <svg width="1000" height="600" style="background: #f2f2f2;">
+    </svg>
+
+    <script src="http://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            var WIDTH = 1000;
+            var HEIGHT = 600;
+
+            var NODE_WIDTH = 60;
+            var NODE_HEIGHT = 20;
+            
+            var ANIMATION_DELAY = 200;
+            
+            var data =  {
+    "name": "NodeA",
+    "type": "Router",
+    "children": [
+        {
+            "name": "NodeB",
+            "type": "Sensor"
+        },
+        {
+            "name": "NodeC",
+            "type": "Router",
+            "children": [
+                {
+                    "name": "NodeD",
+                    "type": "Sensor"
+                },
+                {
+                    "name": "NodeE",
+                    "type": "Sensor"
+                },
+                {
+                    "name": "NodeF",
+                    "type": "Sensor"
+                }
+            ]
+        },
+        {
+            "name": "NodeG",
+            "type": "Sensor"
+        },
+        {
+            "name": "NodeH",
+            "type": "Router",
+            "children": [
+                {
+                    "name": "NodeI",
+                    "type": "Sensor",
+                    "children": [
+                        {
+                            "name": "NodeI",
+                            "type": "Sensor"
+                        },
+                        {
+                            "name": "NodeJ",
+                            "type": "Sensor"
+                        }
+                    ]
+                },
+                {
+                    "name": "NodeJ",
+                    "type": "Sensor"
+                }
+            ]
+        },
+        {
+            "name": "NodeK",
+            "type": "Sensor"
+        }
+    ]
+};
+
+            // 3. 描画用のデータ変換
+            var root = d3.hierarchy(data);
+            console.log(root);
+
+            var tree = d3.tree()
+                        .size([HEIGHT - 100, WIDTH - 150])
+
+            tree(root);
+
+            // 4. svg要素の配置
+            var g = d3.select("svg").append("g")
+                 .attr("transform", "translate(25,25)")
+
+            var link = g.selectAll(".link")
+                .data(root.descendants().slice(1))
+                .enter()
+                .append("path")
+                .attr("class", "link")
+                .attr("d", function(d) {
+                    return "M" + (d.parent.y + NODE_WIDTH ) + "," + (d.parent.x + NODE_HEIGHT / 2) + "L" + (d.parent.y + NODE_WIDTH ) + "," + (d.parent.x + NODE_HEIGHT / 2);
+                })
+                .transition()
+                    .delay(function(d,i) {
+                        return i * ANIMATION_DELAY;
+                    })
+                    .duration(1000)
+                    .attr("d", function(d){
+                        return "M" + (d.parent.y + NODE_WIDTH ) + "," + (d.parent.x + NODE_HEIGHT / 2) + "L" + (d.y) + "," + (d.x + NODE_HEIGHT / 2);
+                    });
+
+            var node = g.selectAll(".node")
+                .data(root.descendants())
+                .enter()
+                .append("g")
+                    .attr("class", "node")
+                    .attr("cursor", "pointer")
+                    .on("click", function(d, i) {
+                        console.log(d);
+                        alert("clicked on " + d.data.name);
+                    })
+                    .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+                    
+
+            node.append("rect")
+                .attr("width", NODE_WIDTH)
+                .attr("height", NODE_HEIGHT)
+                .attr("opacity", 0)
+                .attr("fill", function(d, i) {
+                    if (d.data.type == "Router") return "pink";
+                    else return "skyblue";
+                })
+                .transition()
+                    .delay(function(d,i) {
+                        return i * ANIMATION_DELAY;
+                    })
+                    .duration(function(d, i){
+                        return 100;
+                    })
+                    .attr("opacity", 1);
+
+            node.append("text")
+                .attr("y", 0)
+                .attr("x", 0 )
+                .attr("fill", "block")
+                .attr("align","center")
+                // .style("text-anchor", function(d) { return d.children ? "end" : "start"; })
+                .attr("font-size", "80%")
+                .text("")
+                .transition()
+                    .delay(function(d,i) {
+                        return i * ANIMATION_DELAY;
+                    })
+                    .duration(1000)
+                    .text(function(d) { 
+                        return d.data.name + "(" + d.data.type + ")"; 
+                    });
+            })();
+    </script>
+</body>
+</html>
